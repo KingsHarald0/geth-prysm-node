@@ -168,29 +168,16 @@ docker compose logs -fn 100
 
 ---
 
-## Step 6. Getting the RPC Endpoints
-### Execution Node (Geth)
-Geth provides an HTTP RPC endpoint for interacting with the execution layer of Ethereum. Based on `docker-compose.yml` setup, Geth exposes port `8545` for HTTP RPC. The endpoints are:
-* Inside the VPS: `http://localhost:8545`
-* Outside the VPS: `http://<vps-ip>:8545` (replace `<vps-ip>` with your VPS’s public IP address, e.g., `http://203.0.113.5:8545`).
-
-### Beacon Node (Prysm)
-Prysm, as the beacon node, offers an HTTP gateway on port `3500`. the endpoints are:
-* Inside the VPS: `http://localhost:3500`
-* Outside the VPS: `http://<vps-ip>:3500` (e.g., `http://203.0.113.5:3500`).
-
----
-
-## Step 7. Checking If Nodes Are Synced
+## Step 6. Checking If Nodes Are Synced
 **Execution Node (Geth)**
 ```
 curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' http://localhost:8545
 ```
-* Response if fully synced:
+* ✅Response if fully synced:
 ```json
 {"jsonrpc":"2.0","id":1,"result":false}
 ```
-* Response if still syncing:
+* 🚫Response if still syncing:
 ```json
 {"jsonrpc":"2.0","id":1,"result":{"currentBlock":"0x1a2b3c","highestBlock":"0x1a2b4d","startingBlock":"0x0"}}
 ```
@@ -200,13 +187,13 @@ curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","metho
 ```bash
 curl http://localhost:3500/eth/v1/node/syncing
 ```
-* Response if fully synced:
+* ✅Response if fully synced:
 ```json
 {"data":{"head_slot":"12345","sync_distance":"0","is_syncing":false}}
 ```
 If `is_syncing` is `false` and `sync_distance` is `0`, the beacon node is fully synced.
 
-* Response if still syncing:
+* 🚫Response if still syncing:
 ```json
 {"data":{"head_slot":"12345","sync_distance":"100","is_syncing":true}}
 ```
@@ -214,7 +201,7 @@ If `is_syncing` is `false` and `sync_distance` is `0`, the beacon node is fully 
 
 ---
 
-## Step 8. VPS Firewall
+## Step 7. VPS Firewall
 * Enable Firewall:
 ```bash
 sudo ufw allow 22
@@ -232,6 +219,19 @@ sudo ufw allow 30303/udp   # Geth P2P
 
 ---
 
+## Step 8. Getting the RPC Endpoints
+### Execution Node (Geth)
+Geth provides an HTTP RPC endpoint for interacting with the execution layer of Ethereum. Based on `docker-compose.yml` setup, Geth exposes port `8545` for HTTP RPC. The endpoints are:
+* Inside the VPS: `http://localhost:8545`
+* Outside the VPS: `http://<vps-ip>:8545` (replace `<vps-ip>` with your VPS’s public IP address, e.g., `http://203.0.113.5:8545`).
+
+### Beacon Node (Prysm)
+Prysm, as the beacon node, offers an HTTP gateway on port `3500`. the endpoints are:
+* Inside the VPS: `http://localhost:3500`
+* Outside the VPS: `http://<vps-ip>:3500` (e.g., `http://203.0.113.5:3500`).
+
+---
+
 ## Step 9. Monitor System
 * Monitor your hardware usage:
 ```bash
@@ -242,5 +242,3 @@ htop
 ```bash
 df -h
 ```
-
-
