@@ -168,7 +168,7 @@ docker compose logs -fn 100
 
 ---
 
-## Getting the RPC Endpoints
+## Step 6. Getting the RPC Endpoints
 ### Execution Node (Geth)
 Geth provides an HTTP RPC endpoint for interacting with the execution layer of Ethereum. Based on `docker-compose.yml` setup, Geth exposes port `8545` for HTTP RPC. The endpoints are:
 * Inside the VPS: `http://localhost:8545`
@@ -181,40 +181,40 @@ Prysm, as the beacon node, offers an HTTP gateway on port `3500`. the endpoints 
 
 ---
 
-## Checking If Nodes Are Synced
+## Step 7. Checking If Nodes Are Synced
 **Execution Node (Geth)**
 ```
 curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' http://localhost:8545
 ```
-* Response if synced:
+* Response if fully synced:
 ```json
 {"jsonrpc":"2.0","id":1,"result":false}
 ```
-* Response if syncing:
+* Response if still syncing:
 ```json
-{"jsonrpc":"2.0","id":1,"result":{"currentBlock":"0xabc","highestBlock":"0xdef",...}}
+{"jsonrpc":"2.0","id":1,"result":{"currentBlock":"0x1a2b3c","highestBlock":"0x1a2b4d","startingBlock":"0x0"}}
 ```
-* `currentBlock` vs. `highestBlock` shows syncing progress.
+* You'll see an object with `startingBlock`, `currentBlock`, and `highestBlock`, indicating the sync progress.
 
 **Beacon Node (Prysm)**
 ```bash
 curl http://localhost:3500/eth/v1/node/syncing
 ```
-* Response if synced:
+* Response if fully synced:
 ```json
 {"data":{"head_slot":"12345","sync_distance":"0","is_syncing":false}}
 ```
 If `is_syncing` is `false` and `sync_distance` is `0`, the beacon node is fully synced.
 
-* Response if syncing:
+* Response if still syncing:
 ```json
-{"data":{"head_slot":"12345","sync_distance":"500","is_syncing":true}}
+{"data":{"head_slot":"12345","sync_distance":"100","is_syncing":true}}
 ```
 * If `is_syncing` is `true`, the node is still syncing, and `sync_distance` indicates how many slots behind it is.
 
 ---
 
-## VPS Firewall
+## Step 8. VPS Firewall
 * Enable Firewall:
 ```bash
 sudo ufw allow 22
@@ -232,7 +232,7 @@ sudo ufw allow 30303/udp   # Geth P2P
 
 ---
 
-## Monitor System
+## Step 9. Monitor System
 * Monitor your hardware usage:
 ```bash
 htop
