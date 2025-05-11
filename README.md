@@ -20,7 +20,7 @@ Step by step guide for setting up a `docker-compose.yml` for running a `Sepolia`
 
 ---
 
-## Install Dependecies
+## Step 1. Install Dependecies
 **Packages:**
 ```bash
 sudo apt-get update && sudo apt-get upgrade -y
@@ -57,7 +57,7 @@ sudo systemctl restart docker
 
 ---
 
-## Create Directories
+## Step 2. Create Directories
 ```bash
 mkdir -p /root/ethereum/execution
 mkdir -p /root/ethereum/consensus
@@ -65,7 +65,7 @@ mkdir -p /root/ethereum/consensus
 
 ---
 
-## Generate the JWT secret:
+## Step 3. Generate the JWT secret:
 ```bash
 openssl rand -hex 32 | tr -d "\n" > ~/ethereum/execution/jwt.hex
 ```
@@ -80,7 +80,7 @@ cat /root/ethereum/consensus/jwt.hex
 
 ---
 
-## Configure `docker-compose.yml`
+## Step 4. Configure `docker-compose.yml`
 ```bash
 cd ethereum
 ```
@@ -144,16 +144,26 @@ services:
 
 ---
 
-## Port conflicts:
+## Step 5. Port conflicts:
 * The setup uses ports 30303, 8545, 8546, 8551, 4000, and 3500. Verify they’re free:
 ```
 netstat -tuln | grep -E '30303|8545|8546|8551|4000|3500'
 ```
 If a port is in use, edit the `docker-compose.yml` to map to a different host port (e.g., `8546:8545` to `8547:8545`).
 
-## Run Geth & Prysm Nodes
+## Step 6. Run Geth & Prysm Nodes
+* Start Geth & Prysm Nodes:
 ```bash
 docker compose up -d
+```
+
+* Node Logs
+```bash
+# All logs
+docker compose logs -f
+
+# Last 100 lines of logs
+docker compose logs -fn 100
 ```
 
 ---
