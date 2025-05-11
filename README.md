@@ -1,10 +1,10 @@
 # geth-prysm-node
-Step by step guide for setting up a `docker-compose.yml` for running an Ethereum full node using **Geth** as the `execution client` and **Prysm** as the `consensus client` on an Ubuntu-based system.
+Step by step guide for setting up a `docker-compose.yml` for running a `Sepolia` Ethereum full node using **Geth** as the `execution client` and **Prysm** as the `consensus client` on an Ubuntu-based system.
 
 ## Hardware Requirements
 <table>
   <tr>
-    <th colspan="3"> OS: Ubuntu 20.04 LTS or later</th>
+    <th colspan="3"> OS: Ubuntu 20.04 or later</th>
   </tr>
   <tr>
     <td>RAM</td>
@@ -12,11 +12,13 @@ Step by step guide for setting up a `docker-compose.yml` for running an Ethereum
     <td>Disk</td>
   </tr>
   <tr>
-    <td><code>16-32 GB</code></td>
-    <td><code>4-8 cores</code></td>
-    <td><code>2-4 TB SSD (HDDs not recommended)</code></td>
+    <td><code>8-16 GB</code></td>
+    <td><code>4-6 cores</code></td>
+    <td><code>250-350 TB SSD</code></td>
   </tr>
 </table>
+
+---
 
 ## Install Dependecies
 **Packages:**
@@ -103,6 +105,7 @@ services:
     volumes:
       - /root/ethereum/execution:/root
     command:
+      - --sepolia
       - --http
       - --http.api=eth,net,web3
       - --http.addr=0.0.0.0
@@ -123,20 +126,20 @@ services:
       - 4000:4000
       - 3500:3500
     command:
+      - --sepolia
       - --accept-terms-of-use
       - --datadir=/data
       - --disable-monitoring
       - --rpc-host=0.0.0.0
       - --execution-endpoint=http://geth:8551
       - --jwt-secret=/data/jwt.hex
-      - --rpc-host=0.0.0.0
       - --rpc-port=4000
       - --grpc-gateway-corsdomain=*
       - --grpc-gateway-host=0.0.0.0
       - --grpc-gateway-port=3500
       - --min-sync-peers=7
-      - --checkpoint-sync-url=https://mainnet.checkpoint.sigp.io
-      - --genesis-beacon-api-url=https://mainnet.checkpoint.sigp.io
+      - --checkpoint-sync-url=https://checkpoint-sync.sepolia.ethpandaops.io
+      - --genesis-beacon-api-url=https://checkpoint-sync.sepolia.ethpandaops.io
 ```
 
 ---
