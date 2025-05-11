@@ -199,6 +199,17 @@ sudo ufw allow 30303/tcp   # Geth P2P
 sudo ufw allow 30303/udp   # Geth P2P
 ```
 
+---
 
+## Monitor System
+* Monitor your hardware usage:
+```bash
+htop
+```
+
+* Monitor your Disk usage:
+```bash
+df -h
+```
 
 
