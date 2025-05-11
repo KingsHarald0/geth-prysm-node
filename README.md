@@ -1,4 +1,22 @@
 # geth-prysm-node
+Step by step guide for setting up a `docker-compose.yml` for running an Ethereum full node using **Geth** as the `execution client` and **Prysm** as the `consensus client` on an Ubuntu-based system.
+
+## Hardware Requirements
+<table>
+  <tr>
+    <th colspan="3"> OS: Ubuntu 20.04 LTS or later</th>
+  </tr>
+  <tr>
+    <td>RAM</td>
+    <td>CPU</td>
+    <td>Disk</td>
+  </tr>
+  <tr>
+    <td><code>16-32 GB</code></td>
+    <td><code>4-8 cores</code></td>
+    <td><code>2-4 TB SSD (HDDs not recommended)</code></td>
+  </tr>
+</table>
 
 ## Install Dependecies
 **Packages:**
