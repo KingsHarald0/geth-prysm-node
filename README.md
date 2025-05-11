@@ -169,7 +169,7 @@ docker compose logs -fn 100
 ---
 
 ## Step 6. Checking If Nodes Are Synced
-**Execution Node (Geth)**
+➡️**Execution Node (Geth)**
 ```
 curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' http://localhost:8545
 ```
@@ -183,7 +183,7 @@ curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","metho
 ```
 * You'll see an object with `startingBlock`, `currentBlock`, and `highestBlock`, indicating the sync progress.
 
-**Beacon Node (Prysm)**
+➡️**Beacon Node (Prysm)**
 ```bash
 curl http://localhost:3500/eth/v1/node/syncing
 ```
