@@ -159,13 +159,16 @@ docker compose up -d
 
 * Node Logs
 ```bash
-# All logs
+# All lines of logs:
 docker compose logs -f
 
-# Last 100 lines of logs
+# Last 100 lines of logs:
 docker compose logs -fn 100
 ```
 
+![image](https://github.com/user-attachments/assets/55eda130-5e7b-429d-9ef0-b48971123df7)
+
+* As you see in the logs, `Prysm` is synced, and `Geth` yet to be synced later.
 ---
 
 ## Step 6. Checking If Nodes Are Synced
