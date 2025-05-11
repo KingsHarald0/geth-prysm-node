@@ -1,5 +1,19 @@
 # geth-prysm-node
 
+mkdir -p /root/ethereum/execution
+mkdir -p /root/ethereum/consensus
+
+openssl rand -hex 32 | tr -d "\n" > ~/ethereum/execution/jwt.hex
+
+cp /root/ethereum/execution/jwt.hex /root/ethereum/consensus/jwt.hex
+
+cat /root/ethereum/execution/jwt.hex
+cat /root/ethereum/consensus/jwt.hex
+
+cd ethereum
+
+nano docker-compose.yml
+
 ```yaml
 version: "3.8"
 
@@ -52,3 +66,5 @@ services:
       - --checkpoint-sync-url=https://mainnet.checkpoint.sigp.io
       - --genesis-beacon-api-url=https://mainnet.checkpoint.sigp.io
 ```
+
+docker compose up -d
