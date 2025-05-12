@@ -235,11 +235,13 @@ sudo ufw allow 30303/udp   # Geth P2P
 Geth provides an HTTP RPC endpoint for interacting with the execution layer of Ethereum. Based on `docker-compose.yml` setup, Geth exposes port `8545` for HTTP RPC. The endpoints are:
 * Inside the VPS: `http://localhost:8545`
 * Outside the VPS: `http://<vps-ip>:8545` (replace `<vps-ip>` with your VPS’s public IP address, e.g., `http://203.0.113.5:8545`).
+* **Aztec Sequencer Execution RPC**: `http://<vps-ip>:8545`. Since the Aztec Sequencer uses a bridge network to isolate docker container, you can NOT access Geth via **localhost**.
 
 ### Beacon Node (Prysm)
 Prysm, as the beacon node, offers an HTTP gateway on port `3500`. the endpoints are:
 * Inside the VPS: `http://localhost:3500`
 * Outside the VPS: `http://<vps-ip>:3500` (e.g., `http://203.0.113.5:3500`).
+* **Aztec Sequencer Consensus Beacon RPC**: `http://<vps-ip>:3500`. Since the Aztec Sequencer uses a bridge network to isolate docker container, you can NOT access Prysm via **localhost**.
 
 ---
 
