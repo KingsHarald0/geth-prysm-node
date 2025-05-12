@@ -67,15 +67,11 @@ mkdir -p /root/ethereum/consensus
 
 ## Step 3. Generate the JWT secret:
 ```bash
-openssl rand -hex 32 | tr -d "\n" > ~/ethereum/execution/jwt.hex
-```
-```bash
-cp /root/ethereum/execution/jwt.hex /root/ethereum/consensus/jwt.hex
+openssl rand -hex 32 > /root/ethereum/jwt.hex
 ```
 **Verify JWT secrets exist**:
 ```bash
-cat /root/ethereum/execution/jwt.hex
-cat /root/ethereum/consensus/jwt.hex
+cat /root/ethereum/jwt.hex
 ```
 
 ---
@@ -89,8 +85,6 @@ nano docker-compose.yml
 ```
 * Replace the following code into your `docker-compose.yml` file:
 ```yaml
-version: "3.8"
-
 services:
   geth:
     image: ethereum/client-go:stable
@@ -103,7 +97,8 @@ services:
       - 8546:8546
       - 8551:8551
     volumes:
-      - /root/ethereum/execution:/root
+      - /root/ethereum/execution:/data
+      - /root/ethereum/jwt.hex:/data/jwt.hex
     command:
       - --sepolia
       - --http
@@ -111,8 +106,15 @@ services:
       - --http.addr=0.0.0.0
       - --authrpc.addr=0.0.0.0
       - --authrpc.vhosts=*
-      - --authrpc.jwtsecret=/root/jwt.hex
+      - --authrpc.jwtsecret=/data/jwt.hex
       - --authrpc.port=8551
+      - --syncmode=snap
+      - --datadir=/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   prysm:
     image: gcr.io/prysmaticlabs/prysm/beacon-chain
@@ -120,6 +122,7 @@ services:
     restart: unless-stopped
     volumes:
       - /root/ethereum/consensus:/data
+      - /root/ethereum/jwt.hex:/data/jwt.hex
     depends_on:
       - geth
     ports:
@@ -140,6 +143,11 @@ services:
       - --min-sync-peers=7
       - --checkpoint-sync-url=https://checkpoint-sync.sepolia.ethpandaops.io
       - --genesis-beacon-api-url=https://checkpoint-sync.sepolia.ethpandaops.io
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 ```
 
 ---
