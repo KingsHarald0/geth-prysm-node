@@ -253,3 +253,13 @@ htop
 ```bash
 df -h
 ```
+
+* Monitor Geth Disk usage:
+```bash
+docker exec -it geth du -sh /data
+```
+
+* Monitor Prysm Disk usage:
+```bash
+docker exec -it prysm du -sh /data
+```
