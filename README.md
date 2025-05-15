@@ -268,6 +268,8 @@ Prysm, as the beacon node, offers an HTTP gateway on port `3500`. the endpoints 
 * **Aztec Sequencer Consensus Beacon RPC (Running by CLI)**: `http://<your-vps-ip>:3500`
 * **Aztec Sequencer Consensus Beacon RPC (Running by `docker-compose.yml`)**: `http://127.0.0.1:3500`
 
+> [Aztec Sequencer Node Guide](https://github.com/0xmoei/aztec-network)
+
 ---
 
 ## Step 9. Monitor System
