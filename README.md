@@ -89,6 +89,7 @@ services:
   geth:
     image: ethereum/client-go:stable
     container_name: geth
+    network_mode: host
     restart: unless-stopped
     ports:
       - 30303:30303
@@ -119,6 +120,7 @@ services:
   prysm:
     image: gcr.io/prysmaticlabs/prysm/beacon-chain
     container_name: prysm
+    network_mode: host
     restart: unless-stopped
     volumes:
       - /root/ethereum/consensus:/data
@@ -134,13 +136,13 @@ services:
       - --datadir=/data
       - --disable-monitoring
       - --rpc-host=0.0.0.0
-      - --execution-endpoint=http://geth:8551
+      - --execution-endpoint=http://127.0.0.1:8551
       - --jwt-secret=/data/jwt.hex
       - --rpc-port=4000
       - --grpc-gateway-corsdomain=*
       - --grpc-gateway-host=0.0.0.0
       - --grpc-gateway-port=3500
-      - --min-sync-peers=7
+      - --min-sync-peers=3
       - --checkpoint-sync-url=https://checkpoint-sync.sepolia.ethpandaops.io
       - --genesis-beacon-api-url=https://checkpoint-sync.sepolia.ethpandaops.io
     logging:
@@ -220,12 +222,33 @@ sudo ufw allow ssh
 sudo ufw enable
 ```
 
-* Allow incoming traffic on the Geth/Prysm ports:
+* Allow Geth P2P ports:
 ```bash
-sudo ufw allow 8545/tcp    # Geth HTTP RPC
-sudo ufw allow 3500/tcp    # Prysm HTTP API
 sudo ufw allow 30303/tcp   # Geth P2P
 sudo ufw allow 30303/udp   # Geth P2P
+```
+
+* Allow ports for local use (When your client, e.g. Aztec Sequencer, running locally)
+```bash
+sudo ufw allow from 127.0.0.1 to any port 8545 proto tcp
+sudo ufw allow from 127.0.0.1 to any port 3500 proto tcp
+```
+
+* Allow/Deny ports for others IPs: (When your client, e.g. Aztec Sequencer, running on another server)
+```bash
+# Deny ports on all IPs
+sudo ufw deny 8545/tcp
+sudo ufw deny 3500/tcp
+
+# Allow ports on favorite IPs
+sudo ufw allow from <your-vps-ip> to any port 8545 proto tcp
+sudo ufw allow from <your-vps-ip> to any port 3500 proto tcp
+```
+Replace `<your-vps-ip>` with the **IP** you want to allow ports to.
+
+* Reload Firewall:
+```bash
+sudo ufw reload
 ```
 
 ---
@@ -234,14 +257,16 @@ sudo ufw allow 30303/udp   # Geth P2P
 ### Execution Node (Geth)
 Geth provides an HTTP RPC endpoint for interacting with the execution layer of Ethereum. Based on `docker-compose.yml` setup, Geth exposes port `8545` for HTTP RPC. The endpoints are:
 * Inside the VPS: `http://localhost:8545`
-* Outside the VPS: `http://<vps-ip>:8545` (replace `<vps-ip>` with your VPS’s public IP address, e.g., `http://203.0.113.5:8545`).
-* **Aztec Sequencer Execution RPC**: `http://<vps-ip>:8545`. Since the Aztec Sequencer uses a bridge network to isolate docker container, you can NOT access Geth via **localhost**.
+* Outside the VPS: `http://<your-vps-ip>:8545` (replace `<your-vps-ip>` with your VPS’s public IP address, e.g., `http://203.0.113.5:8545`)
+* **Aztec Sequencer Execution RPC (Running by CLI)**: `http://<your-vps-ip>:8545`
+* **Aztec Sequencer Execution RPC (Running by `docker-compose.yml`)**: `http://127.0.0.1:8545`
 
 ### Beacon Node (Prysm)
 Prysm, as the beacon node, offers an HTTP gateway on port `3500`. the endpoints are:
 * Inside the VPS: `http://localhost:3500`
-* Outside the VPS: `http://<vps-ip>:3500` (e.g., `http://203.0.113.5:3500`).
-* **Aztec Sequencer Consensus Beacon RPC**: `http://<vps-ip>:3500`. Since the Aztec Sequencer uses a bridge network to isolate docker container, you can NOT access Prysm via **localhost**.
+* Outside the VPS: `http://<your-vps-ip>:3500` (e.g., `http://203.0.113.5:3500`).
+* **Aztec Sequencer Consensus Beacon RPC (Running by CLI)**: `http://<your-vps-ip>:3500`
+* **Aztec Sequencer Consensus Beacon RPC (Running by `docker-compose.yml`)**: `http://127.0.0.1:3500`
 
 ---
 
