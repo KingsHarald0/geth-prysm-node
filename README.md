@@ -259,14 +259,14 @@ Geth provides an HTTP RPC endpoint for interacting with the execution layer of E
 * Inside the VPS: `http://localhost:8545`
 * Outside the VPS: `http://<your-vps-ip>:8545` (replace `<your-vps-ip>` with your VPS’s public IP address, e.g., `http://203.0.113.5:8545`)
 * **Aztec Sequencer Execution RPC (Running by CLI)**: `http://<your-vps-ip>:8545`
-* **Aztec Sequencer Execution RPC (Running by `docker-compose.yml`)**: `http://127.0.0.1:8545`
+* **Aztec Sequencer Execution RPC (Running by `docker-compose.yml`)**: `http://127.0.0.1:8545` or `http://localhost:8545`
 
 ### Beacon Node (Prysm)
 Prysm, as the beacon node, offers an HTTP gateway on port `3500`. the endpoints are:
 * Inside the VPS: `http://localhost:3500`
 * Outside the VPS: `http://<your-vps-ip>:3500` (e.g., `http://203.0.113.5:3500`).
 * **Aztec Sequencer Consensus Beacon RPC (Running by CLI)**: `http://<your-vps-ip>:3500`
-* **Aztec Sequencer Consensus Beacon RPC (Running by `docker-compose.yml`)**: `http://127.0.0.1:3500`
+* **Aztec Sequencer Consensus Beacon RPC (Running by `docker-compose.yml`)**: `http://127.0.0.1:3500` or `http://localhost.1:3500`
 
 > [Aztec Sequencer Node Guide](https://github.com/0xmoei/aztec-network)
 
