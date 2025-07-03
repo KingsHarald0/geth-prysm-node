@@ -14,7 +14,7 @@ Step by step guide for setting up a `docker-compose.yml` for running a `Sepolia`
   <tr>
     <td><code>8-16 GB</code></td>
     <td><code>4-6 cores</code></td>
-    <td><code>Initially 550 GB SSD - Can grow upto 1 TB</code></td>
+    <td><code>Initially 550 GB SSD - Can grow up to 1 TB</code></td>
   </tr>
 </table>
 
