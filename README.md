@@ -20,7 +20,7 @@ Step by step guide for setting up a `docker-compose.yml` for running a `Sepolia`
 
 ---
 
-## Step 1. Install Dependecies
+## Step 1. Install Dependencies
 **Packages:**
 ```bash
 sudo apt-get update && sudo apt-get upgrade -y
